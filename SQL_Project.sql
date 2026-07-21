@@ -214,3 +214,22 @@ case
     
     #change a column header name to table
     alter table Loans change column LoanAmmount LoanAmount int;
+    
+#transaction
+ insert into transactions (TransationID,Transation_Date,Amount,TransationType)values
+ (101,"2026-07-01",15000,"Deposit"),
+ (102,"2026-10-15",30000,"Withdrawal"),
+ (103,"2026-08-30",25000,"Deposit"),
+ (104,"2026-11-25",1200,"Deposit"),
+ (105,"2026-02-10",15000,"Withdrawal"),
+ (106,"2026-01-01",30000,"Withdrawal"),
+ (107,"2026-07-12",12000,"Deposit");
+ 
+ select*from Transactions;
+ 
+ #accountbranches
+ insert into accountbranches(AssinmentDate)values
+ ("2026-01-10"),("2026-02-15"),("2026-03-20"),("2026-04-05"),("2026-05-18");
+ select*from accountbranches;
+ 
+ 
