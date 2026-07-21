@@ -76,5 +76,56 @@ create table Accounts
  insert into Customers (CustomerID,FirstName,LastName,Email,Phone,accountcreation_date)
  values (003,"Sumit","Khaire","sumitkhiare@gmail.com",5487623259,"2026-12-26");
  select*from Customers;
+ insert into Customers (CustomerID,FirstName,LastName,Email,Phone,accountcreation_date)values
+ (004,"Daya","Mestry","daya@gmail.com",5648571523,"2026-10-20"),
+ (005,"Rushi","Injale","rushi@gmail.com",2565894723,"2026-02-15");
  
+ select*from Customers;
+ 
+ #Update 
+ 
+ update Customers set email="dayamestry@gmail.com" where FirstName= "Daya";
+ update Customers set LastName="mistry" where FirstName= "Daya";
+ update Customers set phone=9372086455 where CustomerID= "002";
+ update Customers set accountcreation_date="2025-03-18" where FirstName= "Rushi";
+ update Customers set FirstName="Rushikesh" where CustomerID= "005";
+ 
+ set sql_safe_updates=0;
+ 
+ #delete
+ 
+ delete from Customers where firstName="Rushikesh";
+ start transaction;
+ rollback;
+ delete from Customers;  # it is work like truncate.
+ truncate table Customers;  #all table values can be deleted.
+ 
+ #DQL-Data Query language
+ select * from Customers;
+ select * from Customers where FirstName= "Tejal";
+ select email,phone from Customers where FirstName="Tejal";
+ select * from Customers where Firstname like "%l"; #endswith
+ select * from Customers where Firstname like "t%"; #startwith
+ select email,phone from Customers where FirstName like "d%";
+ select * from Customers where Firstname like "%t%";
+  select * from Customers order by firstName;
+ select * from Customers order by firstName desc;
+ select * from Customers order by accountcreation_date desc;
+ select * from Customers order by accountcreation_date desc limit 1; #latest customer
+  select * from Customers order by accountcreation_date desc limit 1 offset 1;
+  
+  #ACCOUNTS TABLE
+  
+ insert into accounts(AccountID,AccountType,Balance,CustomerID)values
+ (101,"Savings",20000,001),
+ (102,"Savings",15000,002),
+ (103,"Salary",10000,003),
+ (104,"Current",20000,004);
+ select * from Accounts;
+ select * from Accounts order by Balance;
+ select * from Accounts order by Balance limit 2;
+ select * from Accounts where Balance > 15000;
+select * from Accounts where Balance > 15000 and AccountType="Savings";
+select * from Accounts where Balance > 20000 or AccountType="Salary";
+select * from Accounts where Balance between 5000 and 16000;
  
