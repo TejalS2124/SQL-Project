@@ -82,6 +82,9 @@ create table Accounts
  insert into Customers (CustomerID,FirstName,LastName,Email,Phone,accountcreation_date)values
  (005,"Daya","Mestry","daya@gmail.com",5648571523,"2026-10-20"),
  (006,"Tejaswini","Kadam","tejaswini@gmail.com",2565896414,"2026-01-30");
+  insert into Customers (CustomerID,FirstName,LastName,Email,Phone,accountcreation_date)values
+ (007,"Pratik","Raykar","pratik@gmail.com",346461223164,"2026-05-25"),
+ (008,"Tejaswini","Mishra","tejas@gmail.com",316846154,"2026-10-30");
  select*from Customers;
  
  #Update 
@@ -130,6 +133,9 @@ create table Accounts
   insert into accounts(AccountID,AccountType,Balance,CustomerID)values
  (105,"Salary",70000,005),
  (106,"Current",80000,006);
+ insert into accounts(AccountID,AccountType,Balance,CustomerID)values
+ (107,"Current",60000,007),
+ (108,"Current",80000,008);
  select * from Accounts;
  select * from Accounts order by Balance;
  select * from Accounts order by Balance limit 2;
@@ -232,4 +238,71 @@ case
  ("2026-01-10"),("2026-02-15"),("2026-03-20"),("2026-04-05"),("2026-05-18");
  select*from accountbranches;
  
+ #windows function;
+ #rank without partition
+ select AccountID,Balance, rank() over (order by Balance) from accounts;
+ select AccountID,Balance, rank() over (order by Balance desc) from accounts;
+ #dense_Rank
+ select AccountID,Balance, dense_rank() over (order by Balance desc)from accounts;
+ #rank with partition
+ select AccountID,Balance,AccountType, rank() over 
+ (partition by AccountType order by Balance desc) from accounts;
+ select AccountID,Balance,AccountType, dense_rank() over 
+ (partition by AccountType order by Balance desc) from accounts;
+ #percent rank
+ select AccountID,Balance, percent_rank() over (order by Balance) from accounts;
+ set sql_safe_updates=0;
+ update accounts set Balance=80000 where AccountID=105;
  
+ #lead and Lag
+select AccountID,Balance, lead(Balance) over (order by Balance desc)
+ as Lead_Balance from accounts;
+select AccountID,Balance, lag(Balance) over (order by Balance desc) 
+as Lag_Balance from accounts;
+  
+  
+  select AccountID, AccountType,Balance from accounts 
+  where AccountType="Savings" or AccountType="Current";
+  #membership
+  select AccountID, AccountType,Balance from accounts 
+  where AccountType in("Savings","Current");
+  
+  
+  select LoanID,LoanAmount, rank() over (order by LoanAmount desc) from loans;
+  update loans set LoanAmount=85000000 where LoanID=25;
+  select LoanID,LoanAmount, dense_rank() over (order by LoanAmount desc) from loans;
+  select LoanID,LoanAmount, percent_rank() over (order by LoanAmount) from loans;
+  
+  select LoanID,LoanAmount, lead(LoanAmount) over (order by LoanAmount desc)
+  as Lead_Amount from loans;
+  select LoanID,LoanAmount, lag(LoanAmount) over (order by LoanAmount desc)
+ as Lag_Amount from loans;
+ 
+ #Having clause
+ select min(Balance),AccountType from accounts group by AccountType;
+ select min(Balance),AccountType from accounts group by AccountType order by min(Balance);
+ select min(Balance),AccountType from accounts group by AccountType having 
+ (min(Balance)>10000) order by min(Balance);
+ 
+ select min(Amount),TransationType from transactions group by TransationType;
+  select min(Amount),TransationType from transactions group by TransationType order by min(Amount);
+ select min(Amount),TransationType from transactions group by TransationType having
+ (min(Amount)>1200) order by min(Amount);
+ select TransationID,Amount,TransationType, dense_rank() over 
+ (partition by Transationtype order by Amount desc) from transactions;
+
+ delete from transactions;
+ select * from transactions;
+  insert into transactions (TransationID,Transation_Date,Amount,TransationType)values
+ (101,"2026-07-01",15000,"Cash"),
+ (102,"2026-10-15",30000,"UPI"),
+ (103,"2026-08-30",25000,"Debit"),
+ (104,"2026-11-25",1200,"Cash"),
+ (105,"2026-02-10",15000,"UPI"),
+ (106,"2026-01-01",30000,"UPI"),
+ (107,"2026-07-12",12000,"Cash");
+ 
+ 
+ select now();
+ select current_date();
+ select sysdate();
