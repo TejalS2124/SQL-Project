@@ -2,6 +2,7 @@ show databases;
 create database BankingDB;
 use BankingDB;
 
+
 CREATE TABLE Customers
 (
 	CustomerID INT,
@@ -302,7 +303,50 @@ as Lag_Balance from accounts;
  (106,"2026-01-01",30000,"UPI"),
  (107,"2026-07-12",12000,"Cash");
  
- 
+ #inbuilt function
  select now();
  select current_date();
  select sysdate();
+ select current_timestamp();
+ select datediff(now(),accountcreation_date)as total_days from customers;
+ select datediff(now(),accountcreation_date)as total_days from customers order by total_days limit 1;
+ select * from loans;
+ select datediff(Enddate,StartDate)as duration_loan from loans;
+ select date_add(now(),interval 6 month);
+  select date_add(now(),interval 6 day);
+  select CustomerID,date_add(accountcreation_date,interval 6 month) as lockingperiod from customers;
+  
+  select max(accountcreation_date) from customers;
+  select greatest("2026-07-16","2026-08-16","2026-08-17") as the_greatest_date from customers limit 1;
+  select greatest(450,345,234,567)as the_greatest_value from accounts limit 1;
+  select least(450,345,234,567) from accounts limit 1;
+  
+  #stringFunctions
+  select upper(FirstName),lower(LastName), concat(FirstName," ",LastName) as full_Name from customers;
+  select upper(FirstName),lower(LastName), upper(concat(FirstName," ",LastName)) as full_Name from customers;
+  select upper(FirstName),lower(LastName), lower(concat(FirstName," ",LastName)) as full_Name from customers;
+   select (FirstName),(LastName), concat(FirstName," ",LastName) as full_Name from customers;
+ 
+ select length(FirstName) from customers;
+ select left(FirstName,2), right(FirstName,2) from customers;
+ select left(FirstName,2) from customers;
+ 
+ #MathFunction
+ select 3+5,5-3,3*2,3/3,6%4;
+ select * from Accounts;
+ update accounts set Balance= Balance-2000 where AccountID=101;
+ set sql_safe_updates=0;
+ select round(270.367,2),floor(234.23);
+ select ceil(234.23),floor(234.23);
+ select ceil(234.56),floor(234.51);
+ select truncate(234.23,1);
+ select round(23.56,1),truncate(23.56,1);
+ select abs(-235),abs(235);
+ select mod(24,7),24%7;
+ select power(2,4);
+ select exp(2);
+ 
+ 
+ 
+ 
+ 
