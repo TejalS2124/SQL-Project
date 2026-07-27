@@ -3,6 +3,7 @@ create database BankingDB;
 use BankingDB;
 
 
+
 CREATE TABLE Customers
 (
 	CustomerID INT,
@@ -345,8 +346,56 @@ as Lag_Balance from accounts;
  select mod(24,7),24%7;
  select power(2,4);
  select exp(2);
+
+ #JOINS
+ 
+ select * from customers;
+ select * from accounts;
+ select * from branches;
+ 
+  alter table branches add CustomerID int;
+ update branches set CustomerID=1 where BranchID=1;
+ update branches set CustomerID=2 where BranchID=2;
+ update branches set CustomerID=3 where BranchID=3;
+ update branches set CustomerID=4 where BranchID=4;
+ update branches set CustomerID=5 where BranchID=5;
+ update branches set CustomerID=6 where BranchID=6;
+ update branches set CustomerID=7 where BranchID=7;
  
  
+ select c.CustomerID, c.FirstName, a.Balance, a.AccountID from
+ Customers c  join Accounts a
+ on c.CustomerID = a.CustomerID;
  
+ select c.CustomerID, c.FirstName, a.Balance, a.AccountID from
+ Customers c  inner join Accounts a
+ on c.CustomerID = a.CustomerID;
+ 
+ select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress from
+ Customers c  left join Branches b
+ on c.CustomerID = b.CustomerID;
+ 
+ select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress from
+ Customers c  right join Branches b
+ on c.CustomerID = b.CustomerID;
+ 
+ select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress from
+ Customers c inner join Branches b
+ on c.CustomerID = b.CustomerID where c.CustomerID=1;
+ 
+  select b.CustomerID , c.accountcreation_date from
+ Customers c inner join Branches b
+ on c.CustomerID = b.CustomerID where b.CustomerID=2;
+ 
+ 
+ select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress from
+ Customers c  right join Branches b
+ on c.CustomerID = b.CustomerID union
+ select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress from
+ Customers c  left join Branches b
+ on c.CustomerID = b.CustomerID;
+ 
+
+  
  
  
