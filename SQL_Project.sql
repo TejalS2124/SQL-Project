@@ -2,8 +2,6 @@ show databases;
 create database BankingDB;
 use BankingDB;
 
-
-
 CREATE TABLE Customers
 (
 	CustomerID INT,
@@ -210,15 +208,16 @@ select max(InterestRate)from loans;
 select InterestRate  from loans order by InterestRate desc limit 1;
 
 #Cases
-select LoanID , LoanAmmount,
+select LoanID , LoanAmount,
 case
-    when LoanAmmount<30000000 then "Basic Loan"
-    when LoanAmmount<70000000 then "Standard Loan"
+    when LoanAmount<30000000 then "Basic Loan"
+    when LoanAmount<70000000 then "Standard Loan"
     else "Premium Loan"
     end
     as Loan_Type from Loans;
     
     select*from Accounts;
+    select*from loans;
     
     #change a column header name to table
     alter table Loans change column LoanAmmount LoanAmount int;
@@ -314,8 +313,8 @@ as Lag_Balance from accounts;
  select * from loans;
  select datediff(Enddate,StartDate)as duration_loan from loans;
  select date_add(now(),interval 6 month);
-  select date_add(now(),interval 6 day);
-  select CustomerID,date_add(accountcreation_date,interval 6 month) as lockingperiod from customers;
+ select date_add(now(),interval 6 day);
+ select CustomerID,date_add(accountcreation_date,interval 6 month) as lockingperiod from customers;
   
   select max(accountcreation_date) from customers;
   select greatest("2026-07-16","2026-08-16","2026-08-17") as the_greatest_date from customers limit 1;
@@ -363,40 +362,41 @@ as Lag_Balance from accounts;
  update branches set CustomerID=7 where BranchID=7;
  
  #JOIN
- select c.CustomerID, c.FirstName, a.Balance, a.AccountID from
- Customers c  join Accounts a
+ select c.CustomerID, c.FirstName, a.Balance, a.AccountID 
+ from Customers c join Accounts a
  on c.CustomerID = a.CustomerID;
  
  #INNER JOIN
- select c.CustomerID, c.FirstName, a.Balance, a.AccountID from
- Customers c  inner join Accounts a
+ select c.CustomerID, c.FirstName, a.Balance, a.AccountID
+ from Customers c  inner join Accounts a
  on c.CustomerID = a.CustomerID;
  
  #LEFT JOIN
- select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress from
- Customers c  left join Branches b
+ select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress 
+ from Customers c left join Branches b
  on c.CustomerID = b.CustomerID;
  
  #RIGHT JOIN
- select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress from
- Customers c  right join Branches b
+ select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress 
+ from Customers c right join Branches b
  on c.CustomerID = b.CustomerID;
  
  #INNER OIN WITH CONDITION
- select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress from
- Customers c inner join Branches b
+ select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress 
+ from Customers c inner join Branches b
  on c.CustomerID = b.CustomerID where c.CustomerID=1;
  
-  select b.CustomerID , c.accountcreation_date from
- Customers c inner join Branches b
- on c.CustomerID = b.CustomerID where b.CustomerID=2;
+select b.CustomerID , c.accountcreation_date from
+Customers c inner join Branches b
+on c.CustomerID = b.CustomerID where b.CustomerID=2;
  
  #UNION
- select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress from
- Customers c  right join Branches b
- on c.CustomerID = b.CustomerID union
- select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress from
- Customers c  left join Branches b
+ select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress 
+ from Customers c  right join Branches b
+ on c.CustomerID = b.CustomerID 
+ union
+ select c.CustomerID, c.FirstName, b.BranchName,b.BranchAddress 
+ from Customers c  left join Branches b
  on c.CustomerID = b.CustomerID;
 
 select* from Transactions;
@@ -412,10 +412,10 @@ select* from Transactions;
 
 select * from Customers;
   
-  insert into Customers (CustomerID,FirstName,LastName,accountcreation_date)
- values (9,"Sanika","patil","2026-07-17");
-  insert into Customers (CustomerID,FirstName,Email)
- values (10,"Ganesh","ganesh@gmail.com");
+insert into Customers (CustomerID,FirstName,LastName,accountcreation_date)
+values (9,"Sanika","patil","2026-07-17");
+insert into Customers (CustomerID,FirstName,Email)
+values (10,"Ganesh","ganesh@gmail.com");
  
  select * from loans;
  
@@ -450,32 +450,51 @@ update transactions set CustomerID=7 where TransationID=107;
 
 
 #cross join
-select c.CustomerID, c.FirstName, c.LastName, t.Transation_Date, t.Amount from customers c cross join transactions t ;
-select c.CustomerID, c.FirstName, c.LastName, t.Transation_Date, t.Amount from customers c cross join transactions t ;
+select c.CustomerID, c.FirstName, c.LastName, t.Transation_Date, t.Amount 
+from customers c cross join transactions t ;
+select c.CustomerID, c.FirstName, c.LastName, t.Transation_Date, t.Amount 
+from customers c cross join transactions t ;
 
 #JOIN WITH GROUP BY
-select c.customerID,c.FirstName,sum(t.Amount) from
- Customers c join transactions t on c.CustomerID=t.CustomerID group by c.CustomerID;
+select c.customerID,c.FirstName,sum(t.Amount) 
+from Customers c join transactions t 
+ on c.CustomerID=t.CustomerID 
+ group by c.CustomerID;
  
  #SUBQUERY
-select*from accounts having Balance=(select max(Balance) from accounts); # calculate outer query based on inner query.
-select * from accounts having Balance>(select avg(Balance) from accounts);
+select*from accounts 
+having Balance=(select max(Balance) 
+from accounts); # calculate outer query based on inner query.
+
+select * from accounts 
+having Balance>(select avg(Balance) 
+from accounts);
 select avg(Balance) from accounts;
 
 select * from accounts;
 
-select * from  transactions having Amount>(select avg(Amount) from transactions);
+select * from  transactions 
+having Amount>(select avg(Amount) 
+from transactions);
 
-select c.CustomerID, c.FirstName, c.LastName, c.Email, a.Balance from
- Customers c inner join Accounts a
- on c.CustomerID = a.CustomerID where a.Balance=(select max(Balance) from Accounts);
+select c.CustomerID, c.FirstName, c.LastName, c.Email, a.Balance 
+from Customers c inner join Accounts a
+on c.CustomerID = a.CustomerID 
+where a.Balance=(select max(Balance) 
+from Accounts);
  
- select c.*, a.Balance from
- Customers c inner join Accounts a
- on c.CustomerID = a.CustomerID where (select max(Balance) from accounts);
+ select c.*, a.Balance 
+ from Customers c inner join Accounts a
+ on c.CustomerID = a.CustomerID 
+ where (select max(Balance) from accounts);
 
-select * from customers where CustomerID in (select CustomerID from accounts 
-where Balance in (select max(Balance)from accounts));
+select * from customers 
+where CustomerID 
+in (select CustomerID 
+from accounts 
+where Balance 
+in (select max(Balance)
+from accounts));
 
 #VIEW
 create view top_5 as
@@ -486,8 +505,9 @@ select LoanID,LoanAmount from loans order by LoanAmount desc limit 3;
 select * from top_3 limit 2;
 
 create view top_2_transactions as
-select c.*,t.TransationID,t.Amount from
-Customers c inner join transactions t on c.CustomerID=t.CustomerID order by t.Amount desc limit 2;
+select c.*,t.TransationID,t.Amount 
+from Customers c inner join transactions t 
+on c.CustomerID=t.CustomerID order by t.Amount desc limit 2;
 
 select * from top_2_transactions;
 
@@ -506,7 +526,7 @@ select Balance,if(Balance>10000,"Maintained","Not Maintained") from Accounts;
 
 select AccountID,Balance ,row_number() over (order by Balance) from accounts;
 
-select AccountID,Balance , sum(Balance) over (order by Balance)as running_total from accounts;
+select AccountID,Balance ,sum(Balance) over (order by Balance)as running_total from accounts;
 
 select AccountID,Balance,AccountType,row_number() over 
  (partition by AccountType order by balance ) from accounts;
@@ -516,7 +536,7 @@ select AccountID,Balance,AccountType,row_number() over
  on c.CustomerID = t.CustomerID 
  where t.Amount is null;
  
- update Customers set FirstName=null where CustomerID=3;
+update Customers set FirstName=null where CustomerID=3;
 set sql_safe_updates=0;
  
 select * from transactions;
