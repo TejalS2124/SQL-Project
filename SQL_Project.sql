@@ -1,4 +1,6 @@
 show databases;
+show databases;
+show databases;
 create database BankingDB;
 use BankingDB;
 
